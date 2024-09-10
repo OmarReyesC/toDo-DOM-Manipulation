@@ -44,3 +44,24 @@ function createButton(text, className) {
     btn.className = className;
     return btn;
 };
+
+taskList.addEventListener('click', (e) => {
+    if(e.target.classList.contains('delete-btn')) {
+        deleteTask(e.target.parentElement);
+    } else if(e.target.classList.contains('edit-btn')) {
+        editTask(e.target.parentElement);
+    }
+});
+
+function deleteTask(taskItem) {
+    if(confirm('¿Confirmas que quieres eliminar permanentemente este elemento?')) {
+        taskItem.remove();
+    };
+};
+
+function editTask(taskItem) {
+    const newTask = prompt('Edita tu tarea:', taskItem.firstChild.textContent);
+    if(newTask) {
+        taskItem.firstChild.textContent = newTask
+    };
+};
