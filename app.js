@@ -1,6 +1,8 @@
 const taskForm = document.getElementById('task-form');
 const taskList = document.getElementById('task-list');
 
+loadTasks();
+
 // Humble first attempt at creating Task items on my own. 
 //taskForm.addEventListener('submit', (e) => {
 //     e.preventDefault();
@@ -27,6 +29,7 @@ taskForm.addEventListener('submit', (e) => {
         console.log(task);
         if (task) {
             taskList.append(createTaskElement(task));
+            storeTaskInLocalStorage(task);
             taskInput.value = '';
         };
 });
@@ -64,4 +67,18 @@ function editTask(taskItem) {
     if(newTask) {
         taskItem.firstChild.textContent = newTask
     };
+};
+
+function storeTaskInLocalStorage(task) {
+    const tasks = JSON.parse(localStorage.getItem('tasks') || "[]");
+
+    tasks.push(task);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+};
+
+function loadTasks() {
+    const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+    tasks.forEach((task) => {
+        taskList.appendChild(createTaskElement(task))
+    });
 };
