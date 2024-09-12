@@ -65,7 +65,8 @@ function deleteTask(taskItem) {
 function editTask(taskItem) {
     const newTask = prompt('Edita tu tarea:', taskItem.firstChild.textContent);
     if(newTask) {
-        taskItem.firstChild.textContent = newTask
+        taskItem.firstChild.textContent = newTask;
+        updateLocalStorage();
     };
 };
 
@@ -82,3 +83,9 @@ function loadTasks() {
         taskList.appendChild(createTaskElement(task))
     });
 };
+
+function updateLocalStorage() {
+    const tasks = Array.from(taskList.querySelectorAll('li')).map((li) => li.firstChild.textContent);
+    
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
