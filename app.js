@@ -1,5 +1,11 @@
 const taskForm = document.getElementById('task-form');
 const taskList = document.getElementById('task-list');
+const themeToggleButton = document.getElementById('toggle-theme-btn');
+
+const currentTheme = localStorage.getItem('theme');
+if (currentTheme === 'dark') {
+    document.body.classList.add('dark-theme');
+}
 
 loadTasks();
 
@@ -34,6 +40,13 @@ taskForm.addEventListener('submit', (e) => {
         };
 });
 
+themeToggleButton.addEventListener('click', () => {
+    document.body.classList.toggle('dark-theme');
+
+    const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+    localStorage.setItem('theme', theme);
+});
+
 function createTaskElement(task) {
     const li = document.createElement('li');
     li.textContent = task;
@@ -59,6 +72,7 @@ taskList.addEventListener('click', (e) => {
 function deleteTask(taskItem) {
     if(confirm('¿Confirmas que quieres eliminar permanentemente este elemento?')) {
         taskItem.remove();
+        updateLocalStorage();
     };
 };
 
